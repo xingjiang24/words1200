@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英語1200字 · 單字學習</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f14;
+    --surface: #1a1a24;
+    --surface2: #22222f;
+    --border: #2e2e40;
+    --accent: #7c6af7;
+    --accent2: #a78bfa;
+    --accent-dim: #3d3580;
+    --green: #34d399;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --text: #e8e8f0;
+    --text2: #9898b0;
+    --text3: #5a5a70;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans TC', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,15,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 58px;
+  }
+  #nav .logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800; font-size: 18px;
+    background: linear-gradient(135deg, var(--accent2), #c4b5fd);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  #nav .nav-tabs { display: flex; gap: 4px; }
+  .nav-btn {
+    background: none; border: none; color: var(--text2);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px; padding: 6px 14px; border-radius: 99px;
+    cursor: pointer; transition: all .2s;
+  }
+  .nav-btn:hover { color: var(--text); background: var(--surface); }
+  .nav-btn.active { color: var(--accent2); background: var(--accent-dim); }
+
+  /* ── PAGES ── */
+  .page { display: none; padding: 78px 24px 40px; max-width: 760px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* ── HOME ── */
+  .home-header {
+    text-align: center; padding: 32px 0 28px;
+  }
+  .home-header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(28px, 6vw, 48px); font-weight: 800;
+    background: linear-gradient(135deg, #c4b5fd 0%, var(--accent2) 50%, #818cf8 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1.1; margin-bottom: 10px;
+  }
+  .home-header p { color: var(--text2); font-size: 14px; }
+
+  .stat-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 14px; text-align: center;
+  }
+  .stat-card .val {
+    font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800;
+    color: var(--accent2);
+  }
+  .stat-card .lbl { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700;
+    color: var(--text2); text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 12px; margin-top: 24px;
+  }
+
+  /* daily goal */
+  .goal-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+  }
+  .goal-row { display: flex; align-items: center; gap: 12px; }
+  .goal-label { font-size: 14px; color: var(--text2); white-space: nowrap; }
+  .goal-input {
+    width: 90px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700;
+    text-align: center; padding: 8px; outline: none;
+  }
+  .goal-input:focus { border-color: var(--accent); }
+  .goal-slider {
+    flex: 1; -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 99px;
+    background: linear-gradient(to right, var(--accent) 0%, var(--accent) var(--pct, 5%), var(--border) var(--pct, 5%));
+    outline: none;
+  }
+  .goal-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px;
+    border-radius: 50%; background: var(--accent2);
+    cursor: pointer; border: 2px solid var(--bg);
+  }
+
+  /* start buttons */
+  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .btn-big {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 14px;
+    color: var(--text); cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif; font-size: 14px;
+    transition: all .2s; text-align: left;
+  }
+  .btn-big:hover { border-color: var(--accent); background: var(--accent-dim); }
+  .btn-big .icon { font-size: 24px; margin-bottom: 8px; display: block; }
+  .btn-big .btitle { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+  .btn-big .bsub { font-size: 12px; color: var(--text2); }
+
+  .btn-primary {
+    display: block; width: 100%;
+    background: linear-gradient(135deg, var(--accent), #818cf8);
+    border: none; border-radius: var(--radius); padding: 16px;
+    color: #fff; font-family: 'Outfit', sans-serif;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    transition: opacity .2s; margin-top: 12px;
+  }
+  .btn-primary:hover { opacity: .85; }
+
+  /* progress bar */
+  .prog-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .prog-bar-track { background: var(--border); border-radius: 99px; height: 8px; overflow: hidden; margin: 8px 0 6px; }
+  .prog-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(to right, var(--accent), var(--accent2)); transition: width .5s; }
+  .prog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
+
+  /* ── QUIZ ── */
+  .quiz-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .quiz-mode-toggle { display: flex; gap: 4px; }
+  .mode-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 6px 14px;
+    color: var(--text2); font-size: 13px; cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: all .15s;
+  }
+  .mode-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent2); }
+
+  .quiz-counter { font-size: 13px; color: var(--text2); }
+  .quiz-counter span { color: var(--accent2); font-weight: 700; font-family: 'Outfit', sans-serif; }
+
+  .quiz-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 36px 28px;
+    text-align: center; margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .quiz-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124,106,247,.08), transparent 70%);
+    pointer-events: none;
+  }
+  .quiz-prompt-label {
+    font-size: 11px; color: var(--text3); letter-spacing: .1em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .quiz-prompt {
+    font-family: 'Outfit', sans-serif; font-size: clamp(28px, 6vw, 44px);
+    font-weight: 800; color: var(--text);
+    line-height: 1.1; margin-bottom: 8px;
+  }
+  .quiz-prompt.chinese {
+    font-family: 'Noto Sans TC', sans-serif; font-size: clamp(20px, 4vw, 30px);
+    font-weight: 700;
+  }
+  .quiz-meanings-display {
+    font-size: 13px; color: var(--text2); margin-top: 6px;
+    min-height: 18px;
+  }
+  .speak-btn {
+    background: none; border: 1px solid var(--border);
+    border-radius: 99px; padding: 6px 14px;
+    color: var(--text2); font-size: 13px; cursor: pointer;
+    margin-top: 16px; transition: all .2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .speak-btn:hover { border-color: var(--accent); color: var(--accent2); }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .choice-btn {
+    background: var(--surface2); border: 2px solid var(--border);
+    border-radius: var(--radius); padding: 16px 12px;
+    color: var(--text); font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; cursor: pointer; text-align: left;
+    transition: all .15s; line-height: 1.4;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-dim); }
+  .choice-btn.correct { border-color: var(--green); background: rgba(52,211,153,.12); color: var(--green); }
+  .choice-btn.wrong { border-color: var(--red); background: rgba(248,113,113,.12); color: var(--red); }
+  .choice-btn:disabled { cursor: default; }
+
+  .quiz-result {
+    text-align: center; padding: 20px 0;
+    display: none;
+  }
+  .result-emoji { font-size: 48px; margin-bottom: 8px; }
+  .result-msg { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .result-sub { font-size: 13px; color: var(--text2); }
+
+  .next-btn {
+    display: none; width: 100%;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px;
+    color: var(--text); font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: all .2s; margin-top: 10px;
+  }
+  .next-btn:hover { background: var(--accent-dim); border-color: var(--accent); }
+
+  /* session end */
+  .session-end {
+    display: none; text-align: center;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 40px 24px;
+  }
+  .session-end h2 { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .session-end p { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
+  .score-display {
+    font-family: 'Outfit', sans-serif; font-size: 56px; font-weight: 800;
+    background: linear-gradient(135deg, var(--green), #6ee7b7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+  }
+  .score-label { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+
+  /* ── REVIEW ── */
+  .review-empty {
+    text-align: center; padding: 60px 20px;
+    color: var(--text2); font-size: 14px;
+  }
+  .review-empty .icon { font-size: 40px; margin-bottom: 12px; }
+
+  .review-batch-list { display: flex; flex-direction: column; gap: 10px; }
+  .review-batch {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; transition: all .2s;
+  }
+  .review-batch:hover { border-color: var(--accent); }
+  .rb-info .rb-title { font-weight: 700; font-size: 15px; }
+  .rb-info .rb-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .rb-arrow { color: var(--text3); font-size: 18px; }
+
+  /* review detail / flashcard */
+  .review-detail { display: none; }
+  .back-btn {
+    background: none; border: none; color: var(--text2);
+    font-size: 13px; cursor: pointer; padding: 0; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'Noto Sans TC', sans-serif; transition: color .2s;
+  }
+  .back-btn:hover { color: var(--text); }
+
+  .flashcard-wrap { perspective: 1000px; margin-bottom: 20px; }
+  .flashcard {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 40px 28px;
+    text-align: center; min-height: 180px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .flashcard:active { transform: scale(.98); }
+  .flashcard::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124,106,247,.06), transparent 70%);
+    pointer-events: none;
+  }
+  .fc-word {
+    font-family: 'Outfit', sans-serif; font-size: clamp(30px,7vw,50px); font-weight: 800;
+    color: var(--text); margin-bottom: 12px;
+  }
+  .fc-meanings {
+    font-size: 15px; color: var(--accent2); line-height: 1.6;
+    max-width: 400px;
+  }
+  .fc-hint { font-size: 12px; color: var(--text3); margin-top: 16px; }
+  .fc-nav { display: flex; gap: 10px; align-items: center; justify-content: center; }
+  .fc-nav-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 99px; padding: 10px 20px;
+    color: var(--text); font-family: 'Outfit', sans-serif;
+    font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s;
+  }
+  .fc-nav-btn:hover { border-color: var(--accent); color: var(--accent2); }
+  .fc-count { font-size: 13px; color: var(--text2); font-family: 'Outfit', sans-serif; }
+
+  .review-mode-bar {
+    display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .rev-mode-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 7px 14px;
+    font-size: 13px; color: var(--text2); cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif; transition: all .15s;
+  }
+  .rev-mode-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent2); }
+
+  /* toast */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(40px);
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 99px; padding: 10px 20px;
+    font-size: 14px; color: var(--text);
+    opacity: 0; transition: all .3s; pointer-events: none; z-index: 999;
+    white-space: nowrap;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="logo">英語1200</div>
+  <div class="nav-tabs">
+    <button class="nav-btn active" onclick="showPage('home')">首頁</button>
+    <button class="nav-btn" onclick="showPage('quiz')">學習</button>
+    <button class="nav-btn" onclick="showPage('review')">複習</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="home-header">
+    <h1>教育部 1200 單字</h1>
+    <p>國中小基本英語字彙 · 完整版</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="val" id="stat-total">1200</div><div class="lbl">總詞彙</div></div>
+    <div class="stat-card"><div class="val" id="stat-learned">0</div><div class="lbl">已學習</div></div>
+    <div class="stat-card"><div class="val" id="stat-streak">0</div><div class="lbl">連續天數</div></div>
+  </div>
+
+  <div class="prog-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:14px;font-weight:700">學習進度</span>
+      <span style="font-size:13px;color:var(--text2)" id="prog-text">0 / 1200</span>
+    </div>
+    <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
+    <div class="prog-meta"><span id="prog-pct">0%</span><span id="prog-remain">剩餘 1200 字</span></div>
+  </div>
+
+  <div class="section-title">每日目標</div>
+  <div class="goal-card">
+    <div class="goal-row">
+      <span class="goal-label">每天背</span>
+      <input type="number" class="goal-input" id="goal-input" min="1" max="1000" value="20">
+      <input type="range" class="goal-slider" id="goal-slider" min="1" max="1000" value="20">
+      <span class="goal-label">個</span>
+    </div>
+  </div>
+
+  <div class="section-title">開始學習</div>
+  <div class="btn-row">
+    <button class="btn-big" onclick="startSession('word2meaning')">
+      <span class="icon">🔤</span>
+      <div class="btitle">看詞選義</div>
+      <div class="bsub">看英文，選中文意思</div>
+    </button>
+    <button class="btn-big" onclick="startSession('meaning2word')">
+      <span class="icon">💬</span>
+      <div class="btitle">看義選詞</div>
+      <div class="bsub">看中文，選英文單字</div>
+    </button>
+  </div>
+  <button class="btn-primary" onclick="startSession('both')">🎲 混合模式（隨機）</button>
+</div>
+
+<!-- QUIZ PAGE -->
+<div id="page-quiz" class="page">
+  <div id="quiz-active">
+    <div class="quiz-header">
+      <div class="quiz-mode-toggle">
+        <button class="mode-btn active" id="qmode-w2m" onclick="switchMode('word2meaning')">看詞選義</button>
+        <button class="mode-btn" id="qmode-m2w" onclick="switchMode('meaning2word')">看義選詞</button>
+      </div>
+      <div class="quiz-counter"><span id="qcur">1</span> / <span id="qtotal">20</span></div>
+    </div>
+    <div class="quiz-card">
+      <div class="quiz-prompt-label" id="qprompt-label">英文單字</div>
+      <div class="quiz-prompt" id="qprompt">apple</div>
+      <div class="quiz-meanings-display" id="qmeanings-display"></div>
+      <button class="speak-btn" id="speak-btn" onclick="speakWord()">🔊 發音</button>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="result-emoji" id="result-emoji">✅</div>
+      <div class="result-msg" id="result-msg">答對了！</div>
+      <div class="result-sub" id="result-sub"></div>
+    </div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">下一題 →</button>
+  </div>
+
+  <div class="session-end" id="session-end">
+    <div class="result-emoji" style="font-size:48px;margin-bottom:12px">🎉</div>
+    <h2>今日完成！</h2>
+    <div class="score-display" id="end-score">0/0</div>
+    <div class="score-label">答對題數</div>
+    <p id="end-msg">這批單字已加入複習庫</p>
+    <button class="btn-primary" onclick="showPage('home')">回首頁</button>
+    <button class="btn-primary" style="margin-top:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="showPage('review')">查看複習庫</button>
+  </div>
+</div>
+
+<!-- REVIEW PAGE -->
+<div id="page-review" class="page">
+  <div id="review-list-view">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h2 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800">複習庫</h2>
+      <span style="font-size:12px;color:var(--text2)" id="review-count-label">0 批</span>
+    </div>
+    <div id="review-batches"></div>
+  </div>
+
+  <div id="review-detail-view" class="review-detail">
+    <button class="back-btn" onclick="backToReviewList()">← 返回複習庫</button>
+    <div class="review-mode-bar">
+      <button class="rev-mode-btn active" id="rvm-flash" onclick="setReviewMode('flash')">📖 背詞卡</button>
+      <button class="rev-mode-btn" id="rvm-w2m" onclick="setReviewMode('word2meaning')">🔤 看詞選義</button>
+      <button class="rev-mode-btn" id="rvm-m2w" onclick="setReviewMode('meaning2word')">💬 看義選詞</button>
+    </div>
+
+    <!-- flashcard mode -->
+    <div id="flash-mode">
+      <div class="flashcard-wrap">
+        <div class="flashcard" id="flashcard" onclick="toggleFlashcard()">
+          <div class="fc-word" id="fc-word">apple</div>
+          <div class="fc-meanings" id="fc-meanings" style="display:none"></div>
+          <div class="fc-hint" id="fc-hint">點擊顯示意思</div>
+        </div>
+      </div>
+      <div class="fc-nav">
+        <button class="fc-nav-btn" onclick="fcPrev()">← 上一個</button>
+        <span class="fc-count" id="fc-count">1 / 20</span>
+        <button class="fc-nav-btn" onclick="fcNext()">下一個 →</button>
+      </div>
+      <button class="speak-btn" style="display:flex;margin:16px auto 0" onclick="speakFlashcard()">🔊 發音</button>
+    </div>
+
+    <!-- quiz mode (review) -->
+    <div id="rev-quiz-mode" style="display:none">
+      <div class="quiz-card">
+        <div class="quiz-prompt-label" id="rqprompt-label">英文單字</div>
+        <div class="quiz-prompt" id="rqprompt">apple</div>
+        <div class="quiz-meanings-display" id="rqmeanings-display"></div>
+        <button class="speak-btn" id="rspeak-btn" onclick="speakReviewWord()">🔊 發音</button>
+      </div>
+      <div class="choices" id="rev-choices"></div>
+      <div class="quiz-result" id="rev-quiz-result">
+        <div class="result-emoji" id="rev-result-emoji">✅</div>
+        <div class="result-msg" id="rev-result-msg">答對了！</div>
+      </div>
+      <button class="next-btn" id="rev-next-btn" onclick="revNextQuestion()">下一題 →</button>
+      <div class="session-end" id="rev-session-end" style="display:none;margin-top:16px">
+        <div style="font-size:40px;margin-bottom:12px">🎊</div>
+        <h2>複習完成！</h2>
+        <div class="score-display" id="rev-end-score">0/0</div>
+        <div class="score-label">答對題數</div>
+        <button class="btn-primary" style="margin-top:12px" onclick="backToReviewList()">返回複習庫</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ─── VOCABULARY DATA ───────────────────────────────────────────────
+const RAW = [
+  [1,"a (an)","一（個）"],
+  [2,"a few","一些"],
+  [3,"a little","一些（少量）"],
+  [4,"a lot","許多"],
+  [5,"able","能夠…的"],
+  [6,"about","關於"],
+  [7,"above","在…上方"],
+  [8,"abroad","在國外"],
+  [9,"across","在…對面"],
+  [10,"actress","女演員"],
+  [11,"afraid","害怕的"],
+  [12,"after","在…之後"],
+  [13,"afternoon","下午"],
+  [14,"again","再一次"],
+  [15,"age","年齡"],
+  [16,"ago","以前"],
+  [17,"agree","同意"],
+  [18,"ahead","在前方"],
+  [19,"air","空氣"],
+  [20,"airplane","飛機"],
+  [21,"airport","機場"],
+  [22,"all","全部的"],
+  [23,"almost","幾乎"],
+  [24,"along","沿著"],
+  [25,"already","已經"],
+  [26,"also","也"],
+  [27,"always","總是"],
+  [28,"a.m.","上午"],
+  [29,"America","美國"],
+  [30,"American","美國人；美國的"],
+  [31,"and","和"],
+  [32,"angry","生氣的"],
+  [33,"animal","動物"],
+  [34,"another","另一個的"],
+  [35,"answer","回答"],
+  [36,"ant","螞蟻"],
+  [37,"any","任何的"],
+  [38,"anyone","任何人"],
+  [39,"anything","任何事物"],
+  [40,"apartment","公寓"],
+  [41,"appear","出現"],
+  [42,"apple","蘋果"],
+  [43,"April","四月"],
+  [44,"arm","手臂；武裝"],
+  [45,"around","在…四周"],
+  [46,"arrive","到達"],
+  [47,"art","美術"],
+  [48,"as","與…一樣"],
+  [49,"ask","問"],
+  [50,"at","在"],
+  [51,"August","八月"],
+  [52,"aunt","伯（叔）母"],
+  [53,"autumn","秋天"],
+  [54,"away","遠離"],
+  [55,"baby","嬰兒"],
+  [56,"back","在…後面"],
+  [57,"bad","壞的"],
+  [58,"badminton","羽毛球"],
+  [59,"bag","袋子"],
+  [60,"bake","烘烤"],
+  [61,"bakery","麵包店"],
+  [62,"balcony","陽台"],
+  [63,"ball","球"],
+  [64,"banana","香蕉"],
+  [65,"band","樂團"],
+  [66,"bank","銀行"],
+  [67,"barbecue","烤肉"],
+  [68,"baseball","棒球"],
+  [69,"basket","籃子"],
+  [70,"basketball","籃球"],
+  [71,"bat","蝙蝠"],
+  [72,"bath","洗澡"],
+  [73,"bathroom","浴室"],
+  [74,"be","是"],
+  [75,"beach","海灘"],
+  [76,"bean","豆"],
+  [77,"bear","熊"],
+  [78,"beautiful","美麗的"],
+  [79,"because","因為"],
+  [80,"become","變成"],
+  [81,"bed","床"],
+  [82,"bedroom","臥室"],
+  [83,"bee","蜜蜂"],
+  [84,"beef","牛肉"],
+  [85,"before","在…之前"],
+  [86,"begin","開始"],
+  [87,"behind","在…後面"],
+  [88,"believe","相信"],
+  [89,"bell","鈴"],
+  [90,"belong","屬於"],
+  [91,"below","在…下方"],
+  [92,"belt","皮帶"],
+  [93,"bench","長椅"],
+  [94,"beside","在…旁邊"],
+  [95,"between","在…之間"],
+  [96,"bike","腳踏車"],
+  [97,"big","大的"],
+  [98,"bird","鳥"],
+  [99,"birthday","生日"],
+  [100,"bite","咬"],
+  [101,"black","黑色（的）"],
+  [102,"blackboard","黑板"],
+  [103,"blanket","毯子"],
+  [104,"blind","瞎的"],
+  [105,"block","街區"],
+  [106,"blow","吹"],
+  [107,"blue","藍色（的）"],
+  [108,"boat","船"],
+  [109,"body","身體"],
+  [110,"boil","煮沸"],
+  [111,"book","書"],
+  [112,"bookstore","書店"],
+  [113,"bored","感到厭煩的"],
+  [114,"boring","無聊的"],
+  [115,"born","出生"],
+  [116,"borrow","借入"],
+  [117,"boss","老板"],
+  [118,"both","兩者都"],
+  [119,"bottle","瓶子"],
+  [120,"bottom","底部"],
+  [121,"bow","敬禮"],
+  [122,"bowl","碗"],
+  [123,"box","盒子"],
+  [124,"boy","男孩"],
+  [125,"bread","麵包"],
+  [126,"break","打破"],
+  [127,"breakfast","早餐"],
+  [128,"bridge","橋"],
+  [129,"bright","明亮的"],
+  [130,"bring","帶來"],
+  [131,"brother","兄弟"],
+  [132,"brown","棕色（的）"],
+  [133,"brush","刷"],
+  [134,"bug","小蟲"],
+  [135,"build","建造"],
+  [136,"bun","小圓麵包"],
+  [137,"burn","燃燒"],
+  [138,"bus","公車"],
+  [139,"business","生意"],
+  [140,"businessman","商人"],
+  [141,"busy","忙碌的"],
+  [142,"but","但是"],
+  [143,"butter","奶油"],
+  [144,"butterfly","蝴蝶"],
+  [145,"buy","買"],
+  [146,"by","藉著"],
+  [147,"cage","籠子"],
+  [148,"cake","蛋糕"],
+  [149,"call","打電話"],
+  [150,"camera","照相機"],
+  [151,"camp","露營"],
+  [152,"can","能夠"],
+  [153,"candle","蠟燭"],
+  [154,"candy","糖果"],
+  [155,"cap","（無邊）帽"],
+  [156,"car","車子"],
+  [157,"card","卡片"],
+  [158,"care","關心"],
+  [159,"careful","仔細的"],
+  [160,"carry","攜帶"],
+  [161,"case","情形"],
+  [162,"castle","城堡"],
+  [163,"cat","貓"],
+  [164,"catch","趕上"],
+  [165,"celebrate","慶祝"],
+  [166,"cell phone","手機"],
+  [167,"cent","（一）分錢"],
+  [168,"center","中心"],
+  [169,"centimeter","公分"],
+  [170,"chair","椅子"],
+  [171,"chalk","粉筆"],
+  [172,"chance","機會"],
+  [173,"change","交換；零錢"],
+  [174,"cheap","便宜的"],
+  [175,"cheat","欺騙"],
+  [176,"check","檢查"],
+  [177,"cheer","歡呼"],
+  [178,"cheese","乳酪"],
+  [179,"chess","西洋棋"],
+  [180,"chicken","雞肉"],
+  [181,"child","小孩"],
+  [182,"China","中國"],
+  [183,"Chinese","中國人；中文"],
+  [184,"chocolate","巧克力"],
+  [185,"choose","選擇"],
+  [186,"chopsticks","筷子"],
+  [187,"Christmas","聖誕節"],
+  [188,"church","教堂"],
+  [189,"circle","圓圈"],
+  [190,"city","城市"],
+  [191,"clap","拍手"],
+  [192,"class","班級"],
+  [193,"classmate","同班同學"],
+  [194,"classroom","教室"],
+  [195,"clean","打掃"],
+  [196,"clear","清楚的"],
+  [197,"clerk","店員"],
+  [198,"climb","爬"],
+  [199,"clock","時鐘"],
+  [200,"close","關上"],
+  [201,"clothes","衣服"],
+  [202,"cloudy","多雲的"],
+  [203,"club","社團"],
+  [204,"coat","大衣"],
+  [205,"coffee","咖啡"],
+  [206,"Coke","可樂"],
+  [207,"cold","寒冷的"],
+  [208,"collect","收集"],
+  [209,"color","顏色"],
+  [210,"come","來"],
+  [211,"comb","梳子"],
+  [212,"comfortable","舒適的"],
+  [213,"comic","連環漫畫"],
+  [214,"common","共同的"],
+  [215,"computer","電腦"],
+  [216,"convenient","方便的"],
+  [217,"cook","煮飯"],
+  [218,"cookie","餅乾"],
+  [219,"cool","涼爽的"],
+  [220,"copy","抄寫；複製"],
+  [221,"corner","角落"],
+  [222,"correct","正確的"],
+  [223,"cost","價值"],
+  [224,"couch","沙發"],
+  [225,"count","計算"],
+  [226,"country","鄉村"],
+  [227,"course","課程"],
+  [228,"cousin","堂（表）兄弟姊妹"],
+  [229,"cover","覆蓋；封面；掩護"],
+  [230,"cow","母牛"],
+  [231,"cowboy","牛仔"],
+  [232,"crazy","瘋狂的"],
+  [233,"cross","越過"],
+  [234,"cry","哭"],
+  [235,"cup","茶杯"],
+  [236,"cut","切"],
+  [237,"cute","可愛的"],
+  [238,"dance","跳舞"],
+  [239,"dangerous","危險的"],
+  [240,"dark","黑暗的"],
+  [241,"date","日期"],
+  [242,"daughter","女兒"],
+  [243,"day","日子"],
+  [244,"dead","死的"],
+  [245,"dear","親愛的"],
+  [246,"December","十二月"],
+  [247,"decide","決定"],
+  [248,"delicious","美味的"],
+  [249,"dentist","牙醫"],
+  [250,"department store","百貨公司"],
+  [251,"desk","書桌"],
+  [252,"dictionary","字典"],
+  [253,"die","死掉"],
+  [254,"different","不同的"],
+  [255,"difficult","困難的"],
+  [256,"dig","挖掘"],
+  [257,"dining room","飯廳"],
+  [258,"dinner","晚餐"],
+  [259,"dirty","骯髒的"],
+  [260,"dish","盤子；菜餚"],
+  [261,"do","做"],
+  [262,"doctor","醫生"],
+  [263,"dodgeball","躲避球"],
+  [264,"dog","狗"],
+  [265,"doll","洋娃娃"],
+  [266,"dollar","元"],
+  [267,"door","門"],
+  [268,"dot","點"],
+  [269,"down","向下"],
+  [270,"dozen","（一）打"],
+  [271,"dragon","龍"],
+  [272,"draw","畫"],
+  [273,"drawer","抽屜"],
+  [274,"dream","（做）夢"],
+  [275,"dress","洋裝"],
+  [276,"drink","喝"],
+  [277,"drive","駕駛"],
+  [278,"driver","駕駛人"],
+  [279,"drop","掉落"],
+  [280,"drum","鼓"],
+  [281,"dry","乾的"],
+  [282,"duck","鴨"],
+  [283,"dumpling","包餡食物；餃子"],
+  [284,"during","在…期間"],
+  [285,"each","每一（的）"],
+  [286,"ear","耳朵"],
+  [287,"early","早的"],
+  [288,"earth","地球"],
+  [289,"east","東方"],
+  [290,"Easter","復活節"],
+  [291,"easy","容易的"],
+  [292,"eat","吃"],
+  [293,"egg","蛋"],
+  [294,"eight","八"],
+  [295,"eighteen","十八"],
+  [296,"eighth","第八"],
+  [297,"eighty","八十"],
+  [298,"either","也不"],
+  [299,"elementary school","小學"],
+  [300,"elephant","大象"],
+  [301,"eleven","十一"],
+  [302,"eleventh","第十一（的）"],
+  [303,"else","其他的"],
+  [304,"e-mail","電子郵件"],
+  [305,"end","結束"],
+  [306,"engineer","工程師"],
+  [307,"English","英語"],
+  [308,"enjoy","喜愛"],
+  [309,"enough","足夠的"],
+  [310,"enter","進入"],
+  [311,"envelope","信封"],
+  [312,"eraser","橡皮擦"],
+  [313,"eve","前夕"],
+  [314,"even","甚至"],
+  [315,"evening","傍晚"],
+  [316,"ever","曾經"],
+  [317,"every","每一個（的）"],
+  [318,"everyone","每一個人"],
+  [319,"everything","每件事"],
+  [320,"example","例子"],
+  [321,"excellent","極好的"],
+  [322,"except","除了…之外"],
+  [323,"excited","感到興奮的"],
+  [324,"exciting","令人興奮的"],
+  [325,"excuse","原諒"],
+  [326,"exercise","運動"],
+  [327,"expensive","昂貴的"],
+  [328,"experience","經驗"],
+  [329,"eye","眼睛"],
+  [330,"face","臉孔；面對"],
+  [331,"fact","事實"],
+  [332,"factory","工廠"],
+  [333,"fail","失敗"],
+  [334,"fall","秋天"],
+  [335,"family","家庭"],
+  [336,"famous","有名的"],
+  [337,"fan","扇子；擁護者"],
+  [338,"far","遠的"],
+  [339,"farm","農田"],
+  [340,"farmer","農夫"],
+  [341,"fast","快的"],
+  [342,"fat","胖的"],
+  [343,"father","父親"],
+  [344,"favorite","最喜愛的"],
+  [345,"February","二月"],
+  [346,"feed","餵"],
+  [347,"feel","覺得"],
+  [348,"festival","節慶"],
+  [349,"fever","發燒"],
+  [350,"few","少數的"],
+  [351,"fifteen","十五"],
+  [352,"fifteenth","第十五（的）"],
+  [353,"fifth","第五（的）"],
+  [354,"fifty","五十"],
+  [355,"fight","打架"],
+  [356,"fill","裝滿"],
+  [357,"finally","最後"],
+  [358,"find","找到"],
+  [359,"fine","很好的"],
+  [360,"finger","手指"],
+  [361,"finish","完成"],
+  [362,"fire","火焰；開火"],
+  [363,"first","第一（的）"],
+  [364,"fish","魚"],
+  [365,"fisherman","漁夫"],
+  [366,"five","五"],
+  [367,"fix","修理"],
+  [368,"floor","地板"],
+  [369,"flower","花朵"],
+  [370,"flute","笛"],
+  [371,"fly","飛"],
+  [372,"follow","遵循；跟隨"],
+  [373,"food","食物"],
+  [374,"foot","腳"],
+  [375,"for","為了"],
+  [376,"foreign","外國的"],
+  [377,"foreigner","外國人"],
+  [378,"forget","忘記"],
+  [379,"fork","叉子"],
+  [380,"forty","四十"],
+  [381,"four","四"],
+  [382,"fourteen","十四"],
+  [383,"fourteenth","第十四（的）"],
+  [384,"fourth","第四（的）"],
+  [385,"fox","狐狸"],
+  [386,"free","空閒的；免費"],
+  [387,"French fries","炸薯條"],
+  [388,"fresh","新鮮的"],
+  [389,"Friday","星期五"],
+  [390,"friend","朋友"],
+  [391,"friendly","友善的"],
+  [392,"frisbee","飛盤"],
+  [393,"frog","青蛙"],
+  [394,"from","從"],
+  [395,"front","前面"],
+  [396,"fruit","水果"],
+  [397,"fry","油炸"],
+  [398,"full","滿的"],
+  [399,"fun","樂趣"],
+  [400,"funny","好笑的"],
+  [401,"future","未來"],
+  [402,"game","比賽；遊戲"],
+  [403,"garbage","垃圾"],
+  [404,"garden","花園"],
+  [405,"gas","瓦斯"],
+  [406,"gate","大門"],
+  [407,"get","得到"],
+  [408,"ghost","鬼"],
+  [409,"giant","巨大的；巨人"],
+  [410,"gift","禮物"],
+  [411,"girl","女孩"],
+  [412,"give","給予"],
+  [413,"glad","高興的"],
+  [414,"glass","玻璃；玻璃杯"],
+  [415,"glasses","眼鏡"],
+  [416,"glove","手套"],
+  [417,"glue","膠水"],
+  [418,"go","去"],
+  [419,"goat","山羊"],
+  [420,"good","好的"],
+  [421,"goodbye","再見"],
+  [422,"goose","鵝"],
+  [423,"grade","成績；年級"],
+  [424,"gram","公克"],
+  [425,"grandfather","祖父"],
+  [426,"grandmother","祖母"],
+  [427,"grape","葡萄"],
+  [428,"grass","草"],
+  [429,"gray","灰色的"],
+  [430,"great","很棒的"],
+  [431,"green","綠色（的）"],
+  [432,"ground","地面"],
+  [433,"group","團體"],
+  [434,"grow","種植"],
+  [435,"guava","番石榴"],
+  [436,"guess","猜想"],
+  [437,"guitar","吉他"],
+  [438,"guy","傢伙"],
+  [439,"gym","體育館"],
+  [440,"habit","習慣"],
+  [441,"hair","頭髮"],
+  [442,"half","一半"],
+  [443,"Halloween","萬聖節"],
+  [444,"ham","火腿"],
+  [445,"hamburger","漢堡"],
+  [446,"hand","手"],
+  [447,"handsome","英俊的"],
+  [448,"hang","懸掛"],
+  [449,"happen","發生"],
+  [450,"happy","快樂的"],
+  [451,"hard","困難的；硬的"],
+  [452,"hard-working","努力工作的"],
+  [453,"hat","帽子"],
+  [454,"hate","討厭"],
+  [455,"have","有"],
+  [456,"he","他"],
+  [457,"head","頭"],
+  [458,"headache","頭痛"],
+  [459,"health","健康"],
+  [460,"healthy","健康的"],
+  [461,"hear","聽"],
+  [462,"heart","心"],
+  [463,"heat","熱度；加熱"],
+  [464,"heavy","重的"],
+  [465,"hello","喂"],
+  [466,"help","幫忙"],
+  [467,"helpful","有幫助的"],
+  [468,"hen","母雞"],
+  [469,"here","這裡"],
+  [470,"hey","嘿"],
+  [471,"hi","嗨"],
+  [472,"hide","隱藏"],
+  [473,"high","高的"],
+  [474,"hike","徒步旅行"],
+  [475,"hill","小山"],
+  [476,"hippo","河馬"],
+  [477,"history","歷史"],
+  [478,"hit","打擊"],
+  [479,"hobby","嗜好"],
+  [480,"hold","拿著"],
+  [481,"holiday","假日"],
+  [482,"home","家"],
+  [483,"homework","家庭作業"],
+  [484,"honest","誠實的"],
+  [485,"honey","蜂蜜"],
+  [486,"hop","（單腳）跳"],
+  [487,"hope","希望"],
+  [488,"horse","馬"],
+  [489,"hospital","醫院"],
+  [490,"hot","熱的"],
+  [491,"hot dog","熱狗"],
+  [492,"hotel","旅社"],
+  [493,"hour","小時"],
+  [494,"house","房屋"],
+  [495,"housewife","家庭主婦"],
+  [496,"how","如何"],
+  [497,"however","然而"],
+  [498,"hundred","百"],
+  [499,"hungry","飢餓的"],
+  [500,"hunt","打獵"],
+  [501,"hurry","趕忙"],
+  [502,"hurt","受傷；疼痛"],
+  [503,"husband","丈夫"],
+  [504,"I","我"],
+  [505,"ice","冰"],
+  [506,"ice cream","冰淇淋"],
+  [507,"idea","主意"],
+  [508,"if","如果"],
+  [509,"important","重要的"],
+  [510,"in","在…裡面"],
+  [511,"insect","昆蟲"],
+  [512,"inside","在…內部"],
+  [513,"interest","使…感興趣"],
+  [514,"interested","感興趣的"],
+  [515,"interesting","有趣的"],
+  [516,"interview","訪問；面試"],
+  [517,"Internet","網路"],
+  [518,"into","到…之內"],
+  [519,"invite","邀請"],
+  [520,"island","島嶼"],
+  [521,"it","它"],
+  [522,"jacket","夾克"],
+  [523,"January","一月"],
+  [524,"jeans","牛仔褲"],
+  [525,"job","工作"],
+  [526,"jog","慢跑"],
+  [527,"join","加入"],
+  [528,"joy","歡樂"],
+  [529,"juice","果汁"],
+  [530,"July","七月"],
+  [531,"jump","跳躍"],
+  [532,"June","六月"],
+  [533,"junior high school","國中"],
+  [534,"just","只是；剛才"],
+  [535,"kangaroo","袋鼠"],
+  [536,"keep","保持"],
+  [537,"key","鑰匙"],
+  [538,"kick","踢"],
+  [539,"kid","小孩"],
+  [540,"kill","殺"],
+  [541,"kilo","公斤"],
+  [542,"kind","種類"],
+  [543,"king","國王"],
+  [544,"kiss","吻"],
+  [545,"kitchen","廚房"],
+  [546,"kite","風箏"],
+  [547,"knee","膝蓋"],
+  [548,"knife","刀子"],
+  [549,"knock","敲"],
+  [550,"know","知道"],
+  [551,"knowledge","知識"],
+  [552,"koala","無尾熊"],
+  [553,"lake","湖"],
+  [554,"lamp","燈"],
+  [555,"land","土地"],
+  [556,"language","語言"],
+  [557,"lantern","燈籠"],
+  [558,"large","大的"],
+  [559,"last","最後的"],
+  [560,"late","晚的"],
+  [561,"later","稍後"],
+  [562,"laugh","笑"],
+  [563,"lawyer","律師"],
+  [564,"lazy","懶惰的"],
+  [565,"lead","引導"],
+  [566,"leader","領導者"],
+  [567,"learn","學習"],
+  [568,"least","最少（的）"],
+  [569,"leave","離開"],
+  [570,"left","左邊"],
+  [571,"leg","腿"],
+  [572,"lemon","檸檬"],
+  [573,"lend","借出"],
+  [574,"less","較少的"],
+  [575,"lesson","課"],
+  [576,"let","讓"],
+  [577,"letter","信"],
+  [578,"lettuce","萵苣"],
+  [579,"library","圖書館"],
+  [580,"lid","蓋子"],
+  [581,"lie","說謊"],
+  [582,"life","生活"],
+  [583,"light","燈光；輕的"],
+  [584,"like","喜歡"],
+  [585,"line","隊伍；線條"],
+  [586,"lion","獅子"],
+  [587,"lip","嘴唇"],
+  [588,"list","表；名單"],
+  [589,"listen","聽"],
+  [590,"little","小的"],
+  [591,"live","住；活的；實況"],
+  [592,"living room","客廳"],
+  [593,"lonely","寂寞的"],
+  [594,"long","長的"],
+  [595,"look","看"],
+  [596,"lose","遺失"],
+  [597,"loud","大聲的"],
+  [598,"love","喜愛"],
+  [599,"lovely","可愛的"],
+  [600,"low","低的"],
+  [601,"lucky","幸運的"],
+  [602,"lunch","午餐"],
+  [603,"machine","機器"],
+  [604,"mad","瘋狂的"],
+  [605,"magic","神奇的；魔術"],
+  [606,"mail","信件"],
+  [607,"mailman","郵差"],
+  [608,"make","製作"],
+  [609,"man","男人"],
+  [610,"many","許多的"],
+  [611,"map","地圖"],
+  [612,"March","三月"],
+  [613,"mark","做記號"],
+  [614,"marker","簽字筆"],
+  [615,"market","市場"],
+  [616,"married","已婚的"],
+  [617,"mask","面具"],
+  [618,"mat","墊子"],
+  [619,"math","數學"],
+  [620,"matter","事情"],
+  [621,"may","可能"],
+  [622,"May","五月"],
+  [623,"maybe","也許"],
+  [624,"meal","一餐"],
+  [625,"mean","意指"],
+  [626,"meat","肉"],
+  [627,"medicine","藥"],
+  [628,"medium","中號（的）"],
+  [629,"meet","遇見"],
+  [630,"meeting","會議"],
+  [631,"menu","菜單；選單"],
+  [632,"mile","英里"],
+  [633,"milk","牛奶"],
+  [634,"million","百萬"],
+  [635,"mind","介意"],
+  [636,"minute","分鐘"],
+  [637,"Miss","小姐"],
+  [638,"miss","想念"],
+  [639,"mistake","錯誤"],
+  [640,"modern","現代化的"],
+  [641,"moment","片刻"],
+  [642,"Monday","星期一"],
+  [643,"money","錢"],
+  [644,"monkey","猴子"],
+  [645,"month","月份"],
+  [646,"moon","月亮"],
+  [647,"mop","拖地"],
+  [648,"more","更多的"],
+  [649,"morning","早上"],
+  [650,"most","大部分的"],
+  [651,"mother","母親"],
+  [652,"motorcycle","機車"],
+  [653,"mountain","山"],
+  [654,"mouse","老鼠"],
+  [655,"mouth","嘴巴"],
+  [656,"move","移動"],
+  [657,"movie","電影"],
+  [658,"Mr.","先生"],
+  [659,"Mrs.","太太"],
+  [660,"MRT","捷運"],
+  [661,"Ms.","女士"],
+  [662,"much","許多（不可數）"],
+  [663,"mud","泥巴"],
+  [664,"museum","博物館"],
+  [665,"music","音樂"],
+  [666,"must","必須"],
+  [667,"nail","釘子"],
+  [668,"name","名字"],
+  [669,"national","國家的"],
+  [670,"near","在…附近"],
+  [671,"neck","脖子"],
+  [672,"need","需要"],
+  [673,"neighbor","鄰居"],
+  [674,"never","從不"],
+  [675,"new","新的"],
+  [676,"news","消息；新聞"],
+  [677,"next","下一個"],
+  [678,"nice","好的"],
+  [679,"night","晚上"],
+  [680,"nine","九"],
+  [681,"nineteen","十九"],
+  [682,"nineteenth","第十九"],
+  [683,"ninety","九十"],
+  [684,"ninth","第九"],
+  [685,"no","沒有；不是"],
+  [686,"nobody","沒有人"],
+  [687,"nod","點頭"],
+  [688,"noise","噪音"],
+  [689,"noodle","麵條"],
+  [690,"noon","中午"],
+  [691,"north","北方"],
+  [692,"nose","鼻子"],
+  [693,"not","不；不是"],
+  [694,"note","筆記"],
+  [695,"notebook","筆記本；筆電"],
+  [696,"nothing","沒東西；沒事"],
+  [697,"notice","注意到"],
+  [698,"November","十一月"],
+  [699,"now","現在"],
+  [700,"number","號碼"],
+  [701,"nurse","護士"],
+  [702,"o'clock","點鐘"],
+  [703,"October","十月"],
+  [704,"of","…的"],
+  [705,"off","自…離開"],
+  [706,"office","辦公室"],
+  [707,"officer","官員"],
+  [708,"often","時常"],
+  [709,"oil","油"],
+  [710,"OK","可以"],
+  [711,"old","老的"],
+  [712,"on","在…上面"],
+  [713,"once","一次"],
+  [714,"one","一"],
+  [715,"only","只有"],
+  [716,"open","打開；開放"],
+  [717,"or","或"],
+  [718,"orange","柳橙"],
+  [719,"order","點餐；秩序"],
+  [720,"other","其他的"],
+  [721,"out","在外"],
+  [722,"outside","在…外部"],
+  [723,"over","結束"],
+  [724,"own","自己的"],
+  [725,"ox","公牛"],
+  [726,"pack","包"],
+  [727,"package","包裹"],
+  [728,"page","頁"],
+  [729,"paint","繪畫"],
+  [730,"pair","一雙"],
+  [731,"pants","長褲"],
+  [732,"papaya","木瓜"],
+  [733,"paper","紙"],
+  [734,"parent(s)","父（母）親"],
+  [735,"park","公園"],
+  [736,"part","部分"],
+  [737,"party","派對"],
+  [738,"pass","通過"],
+  [739,"past","經過"],
+  [740,"paste","黏貼；漿糊"],
+  [741,"pay","付錢"],
+  [742,"PE","體育"],
+  [743,"peach","桃子"],
+  [744,"pear","梨子"],
+  [745,"pen","筆"],
+  [746,"pencil","鉛筆"],
+  [747,"people","人們；人民"],
+  [748,"perhaps","或許"],
+  [749,"person","人"],
+  [750,"pet","寵物"],
+  [751,"photo","相片"],
+  [752,"piano","鋼琴"],
+  [753,"pick","撿拾"],
+  [754,"picnic","野餐"],
+  [755,"picture","圖片；照片"],
+  [756,"pie","派"],
+  [757,"piece","片"],
+  [758,"pig","豬"],
+  [759,"pin","大頭針"],
+  [760,"pink","粉紅色（的）"],
+  [761,"pipe","管"],
+  [762,"pizza","披薩"],
+  [763,"place","地方"],
+  [764,"plan","計畫"],
+  [765,"planet","行星"],
+  [766,"plant","植物"],
+  [767,"plate","盤子"],
+  [768,"play","玩"],
+  [769,"player","球員；玩家"],
+  [770,"playground","操場"],
+  [771,"pleasure","樂趣；使高興"],
+  [772,"please","請"],
+  [773,"p.m.","下午"],
+  [774,"pocket","口袋"],
+  [775,"point","指著；得分"],
+  [776,"police","警察"],
+  [777,"polite","有禮貌的"],
+  [778,"pond","池塘"],
+  [779,"pool","游泳池"],
+  [780,"poor","貧困的；可憐的"],
+  [781,"popcorn","爆米花"],
+  [782,"popular","受歡迎的"],
+  [783,"pork","豬肉"],
+  [784,"possible","可能的"],
+  [785,"post office","郵局"],
+  [786,"postcard","明信片"],
+  [787,"pot","罐；壺；鍋子"],
+  [788,"pound","磅"],
+  [789,"practice","練習"],
+  [790,"pray","祈禱"],
+  [791,"prepare","準備"],
+  [792,"present","禮物"],
+  [793,"pretty","漂亮的；非常"],
+  [794,"price","價格"],
+  [795,"princess","公主"],
+  [796,"prize","獎品；獎金"],
+  [797,"problem","問題"],
+  [798,"program","節目"],
+  [799,"proud","驕傲的"],
+  [800,"public","公立的；公眾的"],
+  [801,"pull","拉"],
+  [802,"pumpkin","南瓜"],
+  [803,"purple","紫色的"],
+  [804,"push","推"],
+  [805,"put","放"],
+  [806,"quarter","15分鐘；1/4"],
+  [807,"queen","皇后"],
+  [808,"question","問題"],
+  [809,"quick","迅速的"],
+  [810,"quiet","安靜的"],
+  [811,"quite","相當"],
+  [812,"quiz","小考"],
+  [813,"rabbit","兔子"],
+  [814,"race","賽跑"],
+  [815,"radio","收音機"],
+  [816,"railroad","鐵路"],
+  [817,"rain","下雨"],
+  [818,"rainbow","彩虹"],
+  [819,"rainy","下雨的"],
+  [820,"raise","舉起；養育"],
+  [821,"rat","（大）老鼠；鼠輩"],
+  [822,"read","讀"],
+  [823,"ready","準備好的"],
+  [824,"real","真的"],
+  [825,"really","真地"],
+  [826,"recorder","錄音機"],
+  [827,"red","紅色（的）"],
+  [828,"refrigerator","冰箱"],
+  [829,"remember","記得"],
+  [830,"repeat","重複"],
+  [831,"reporter","記者"],
+  [832,"rest","休息"],
+  [833,"restaurant","餐館"],
+  [834,"restroom","洗手間"],
+  [835,"rice","米飯"],
+  [836,"rich","有錢的"],
+  [837,"ride","騎"],
+  [838,"right","右邊；正確的"],
+  [839,"ring","戒指"],
+  [840,"river","河"],
+  [841,"road","道路"],
+  [842,"robot","機器人"],
+  [843,"ROC","中華民國"],
+  [844,"rock","岩石"],
+  [845,"roll","滾"],
+  [846,"room","房間"],
+  [847,"rollerskate","溜冰"],
+  [848,"rope","繩子"],
+  [849,"rose","玫瑰"],
+  [850,"round","圓形的"],
+  [851,"row","划（船）"],
+  [852,"rule","規則"],
+  [853,"ruler","尺"],
+  [854,"run","跑"],
+  [855,"sad","悲傷的"],
+  [856,"safe","安全的"],
+  [857,"sail","航行"],
+  [858,"salad","沙拉"],
+  [859,"sale","出售"],
+  [860,"salesman","推銷員"],
+  [861,"salt","鹽"],
+  [862,"same","相同的"],
+  [863,"sandwich","三明治"],
+  [864,"Saturday","星期六"],
+  [865,"sacred","神聖的"],
+  [866,"save","節省；挽救"],
+  [867,"say","說"],
+  [868,"school","學校"],
+  [869,"science","科學"],
+  [870,"scooter","速克達機車"],
+  [871,"screen","螢幕"],
+  [872,"sea","海"],
+  [873,"season","季節"],
+  [874,"seat","座位"],
+  [875,"second","第二（的）"],
+  [876,"secretary","秘書"],
+  [877,"see","看"],
+  [878,"seed","種子"],
+  [879,"seesaw","蹺蹺板"],
+  [880,"seldom","很少"],
+  [881,"sell","賣"],
+  [882,"send","寄"],
+  [883,"senior high school","高中"],
+  [884,"sentence","句子"],
+  [885,"September","九月"],
+  [886,"serious","嚴重的"],
+  [887,"set","（電視）機"],
+  [888,"seven","七"],
+  [889,"seventeen","十七"],
+  [890,"seventeenth","第十七（的）"],
+  [891,"seventh","第七（的）"],
+  [892,"seventy","七十"],
+  [893,"several","幾個的"],
+  [894,"shake","搖動"],
+  [895,"shall","將會；好嗎？"],
+  [896,"shape","形狀"],
+  [897,"share","分享"],
+  [898,"shark","鯊魚"],
+  [899,"she","她"],
+  [900,"sheep","綿羊"],
+  [901,"ship","船"],
+  [902,"shirt","襯衫"],
+  [903,"shoe(s)","鞋子"],
+  [904,"shop","商店"],
+  [905,"shopkeeper","店主"],
+  [906,"short","短的"],
+  [907,"shorts","短褲"],
+  [908,"should","應該"],
+  [909,"shoulder","肩膀"],
+  [910,"shout","喊叫"],
+  [911,"show","指示；表演"],
+  [912,"shy","害羞的"],
+  [913,"sick","生病的"],
+  [914,"side","旁邊；邊；面"],
+  [915,"sidewalk","人行道"],
+  [916,"sight","視力"],
+  [917,"sign","標誌"],
+  [918,"simple","簡單的"],
+  [919,"since","自從"],
+  [920,"sing","唱歌"],
+  [921,"singer","歌手"],
+  [922,"sir","先生"],
+  [923,"sister","姊妹"],
+  [924,"sit","坐"],
+  [925,"six","六"],
+  [926,"sixteen","十六"],
+  [927,"sixteenth","第十六（的）"],
+  [928,"sixth","第六（的）"],
+  [929,"sixty","六十"],
+  [930,"size","尺寸"],
+  [931,"skate","溜冰"],
+  [932,"skirt","裙子"],
+  [933,"sky","天空"],
+  [934,"sleep","睡覺"],
+  [935,"slide","滑坡；滑動"],
+  [936,"slim","苗條的"],
+  [937,"slow","慢的"],
+  [938,"small","小的"],
+  [939,"smart","聰明的"],
+  [940,"smell","聞起來"],
+  [941,"smile","微笑"],
+  [942,"smoke","煙霧；抽菸"],
+  [943,"snack","點心"],
+  [944,"snake","蛇"],
+  [945,"snow","下雪"],
+  [946,"snowman","雪人"],
+  [947,"snowy","下雪的"],
+  [948,"so","如此地"],
+  [949,"soccer","足球"],
+  [950,"socks","襪子"],
+  [951,"sofa","沙發"],
+  [952,"soldier","軍人"],
+  [953,"some","一些"],
+  [954,"someone","某人"],
+  [955,"something","某事"],
+  [956,"sometimes","有時候"],
+  [957,"somewhere","某處"],
+  [958,"son","兒子"],
+  [959,"song","歌曲"],
+  [960,"soon","不久；即將"],
+  [961,"sore","疼痛的"],
+  [962,"sorry","抱歉（的）"],
+  [963,"sound","聲音；聽起來"],
+  [964,"soup","湯"],
+  [965,"south","南方"],
+  [966,"space","空間"],
+  [967,"spaghetti","義大利麵"],
+  [968,"speak","說"],
+  [969,"special","特別的"],
+  [970,"spell","拼字"],
+  [971,"spend","花（錢、時間）"],
+  [972,"spider","蜘蛛"],
+  [973,"spoon","湯匙"],
+  [974,"sport","運動"],
+  [975,"spring","春天"],
+  [976,"square","正方形的"],
+  [977,"stairs","樓梯"],
+  [978,"stamp","郵票"],
+  [979,"stand","站立"],
+  [980,"star","星星"],
+  [981,"start","開始"],
+  [982,"station","車站；站；局"],
+  [983,"stay","停留"],
+  [984,"steak","（牛）排"],
+  [985,"still","仍然"],
+  [986,"stomach","胃"],
+  [987,"stop","停"],
+  [988,"store","商店"],
+  [989,"straight","直的"],
+  [990,"story","故事"],
+  [991,"strange","奇怪的"],
+  [992,"stranger","陌生人"],
+  [993,"strawberry","草莓"],
+  [994,"street","街道"],
+  [995,"strong","強壯的"],
+  [996,"student","學生"],
+  [997,"study","研讀；學習"],
+  [998,"stupid","笨的"],
+  [999,"subject","科目"],
+  [1000,"successful","成功的"],
+  [1001,"sugar","糖"],
+  [1002,"summer","夏天"],
+  [1003,"sun","太陽"],
+  [1004,"Sunday","星期日"],
+  [1005,"sunny","晴朗的"],
+  [1006,"supermarket","超級市場"],
+  [1007,"sure","確定的"],
+  [1008,"surf","衝浪"],
+  [1009,"surprise","使…驚訝"],
+  [1010,"surprised","感到驚訝的"],
+  [1011,"sweater","毛衣"],
+  [1012,"sweet","甜的"],
+  [1013,"swim","游泳"],
+  [1014,"swing","鞦韆；搖擺"],
+  [1015,"table","桌子"],
+  [1016,"tail","尾巴"],
+  [1017,"Taiwan","臺灣"],
+  [1018,"take","拿"],
+  [1019,"talk","說話"],
+  [1020,"tall","高的"],
+  [1021,"tape","錄音帶"],
+  [1022,"taste","品嚐"],
+  [1023,"taxi","計程車"],
+  [1024,"tea","茶"],
+  [1025,"teach","教導"],
+  [1026,"teacher","教師"],
+  [1027,"team","團隊"],
+  [1028,"teenager","青少年"],
+  [1029,"telephone","電話"],
+  [1030,"television","電視"],
+  [1031,"tell","告訴"],
+  [1032,"temple","寺廟"],
+  [1033,"ten","十"],
+  [1034,"tennis","網球"],
+  [1035,"tenth","第十（的）"],
+  [1036,"terrible","可怕的"],
+  [1037,"test","考試；測試"],
+  [1038,"than","比…"],
+  [1039,"thank","謝謝"],
+  [1040,"that","那個"],
+  [1041,"the","這/那"],
+  [1042,"theater","戲院"],
+  [1043,"then","那時"],
+  [1044,"there","那裡"],
+  [1045,"these","這些"],
+  [1046,"they","他們"],
+  [1047,"thick","厚的"],
+  [1048,"thin","瘦的"],
+  [1049,"thing","事情"],
+  [1050,"think","想；思考"],
+  [1051,"third","第三（的）"],
+  [1052,"thirsty","口渴的"],
+  [1053,"thirteen","十三"],
+  [1054,"thirteenth","第十三"],
+  [1055,"thirty","三十"],
+  [1056,"this","這個"],
+  [1057,"throat","喉嚨"],
+  [1058,"throw","丟"],
+  [1059,"those","那些"],
+  [1060,"though","雖然"],
+  [1061,"thousand","千"],
+  [1062,"three","三"],
+  [1063,"Thursday","星期四"],
+  [1064,"ticket","票券"],
+  [1065,"tidy","整潔的"],
+  [1066,"tiger","老虎"],
+  [1067,"tie","領帶；捆；繫"],
+  [1068,"time","時間"],
+  [1069,"tired","疲倦的"],
+  [1070,"to","到"],
+  [1071,"toast","土司；烘烤"],
+  [1072,"today","今天"],
+  [1073,"toe","腳趾"],
+  [1074,"together","一起"],
+  [1075,"tomato","番茄"],
+  [1076,"tomorrow","明天"],
+  [1077,"tonight","今晚"],
+  [1078,"too","也；太…"],
+  [1079,"tooth","牙齒"],
+  [1080,"top","頂端"],
+  [1081,"total","總計"],
+  [1082,"touch","碰觸"],
+  [1083,"towel","毛巾"],
+  [1084,"town","城鎮"],
+  [1085,"toy","玩具"],
+  [1086,"traffic","交通"],
+  [1087,"train","火車"],
+  [1088,"trash","垃圾"],
+  [1089,"treat","請客；對待"],
+  [1090,"tree","樹"],
+  [1091,"trick","惡作劇"],
+  [1092,"trip","（短程）旅行"],
+  [1093,"trouble","麻煩"],
+  [1094,"truck","卡車"],
+  [1095,"true","真實的"],
+  [1096,"try","嘗試"],
+  [1097,"T-shirt","T恤"],
+  [1098,"tub","浴缸；洗澡"],
+  [1099,"Tuesday","星期二"],
+  [1100,"turkey","火雞"],
+  [1101,"turn","轉動；轉彎"],
+  [1102,"turtle","烏龜"],
+  [1103,"twelfth","第十二（的）"],
+  [1104,"twelve","十二"],
+  [1105,"twenty","二十"],
+  [1106,"twentieth","第二十（的）"],
+  [1107,"twice","兩次"],
+  [1108,"two","二"],
+  [1109,"type","打字"],
+  [1110,"typhoon","颱風"],
+  [1111,"umbrella","雨傘"],
+  [1112,"uncle","伯（叔）"],
+  [1113,"under","在…之下"],
+  [1114,"understand","了解"],
+  [1115,"unhappy","不快樂的"],
+  [1116,"uniform","制服"],
+  [1117,"until","直到"],
+  [1118,"up","向上"],
+  [1119,"USA","美國"],
+  [1120,"use","使用"],
+  [1121,"useful","有用的"],
+  [1122,"usually","通常"],
+  [1123,"vacation","假期"],
+  [1124,"vegetable","蔬菜"],
+  [1125,"very","非常"],
+  [1126,"vest","背心"],
+  [1127,"video","錄影帶"],
+  [1128,"violin","小提琴"],
+  [1129,"visit","參觀"],
+  [1130,"voice","聲音"],
+  [1131,"wait","等待"],
+  [1132,"waiter","男服務生"],
+  [1133,"waitress","女服務生"],
+  [1134,"wake","醒來"],
+  [1135,"walk","走路"],
+  [1136,"wall","牆壁"],
+  [1137,"wallet","皮夾"],
+  [1138,"want","想要"],
+  [1139,"warm","溫暖的"],
+  [1140,"wash","清洗"],
+  [1141,"watch","看"],
+  [1142,"water","水"],
+  [1143,"watermelon","西瓜"],
+  [1144,"wave","波浪"],
+  [1145,"way","道路；方法"],
+  [1146,"we","我們"],
+  [1147,"weak","弱的"],
+  [1148,"wear","穿"],
+  [1149,"weather","天氣"],
+  [1150,"Wednesday","星期三"],
+  [1151,"week","星期"],
+  [1152,"weekend","週末"],
+  [1153,"welcome","受歡迎的"],
+  [1154,"well","好地"],
+  [1155,"west","西方"],
+  [1156,"wet","濕的"],
+  [1157,"whale","鯨魚"],
+  [1158,"what","什麼"],
+  [1159,"when","何時"],
+  [1160,"where","何處"],
+  [1161,"whether","是否"],
+  [1162,"which","哪一個"],
+  [1163,"white","白色（的）"],
+  [1164,"who","誰"],
+  [1165,"whose","誰的"],
+  [1166,"why","為什麼"],
+  [1167,"wife","妻子"],
+  [1168,"will","將會…"],
+  [1169,"win","贏"],
+  [1170,"wind","風"],
+  [1171,"window","窗戶"],
+  [1172,"windy","多風的"],
+  [1173,"winter","冬天"],
+  [1174,"wise","明智的"],
+  [1175,"wish","祝福…"],
+  [1176,"with","和"],
+  [1177,"without","沒有"],
+  [1178,"woman","女人"],
+  [1179,"wonderful","極好的"],
+  [1180,"word","字"],
+  [1181,"work","工作"],
+  [1182,"workbook","作業本"],
+  [1183,"worker","工人"],
+  [1184,"world","世界"],
+  [1185,"worry","擔心"],
+  [1186,"write","寫"],
+  [1187,"writer","作家"],
+  [1188,"wrong","錯誤的"],
+  [1189,"yard","庭院"],
+  [1190,"year","年"],
+  [1191,"yellow","黃色（的）"],
+  [1192,"yes","是"],
+  [1193,"yesterday","昨天"],
+  [1194,"yet","尚未"],
+  [1195,"you","你（們）"],
+  [1196,"young","年輕的"],
+  [1197,"yummy","好吃的"],
+  [1198,"zebra","斑馬"],
+  [1199,"zero","零"],
+  [1200,"zoo","動物園"],
+];
+
+const VOCAB = RAW.map(([id, word, meaning]) => ({ id, word, meaning }));
+
+// ─── STATE ─────────────────────────────────────────────────────────
+let state = {
+  goal: 20,
+  learnedIndices: new Set(),  // indices into VOCAB that are learned
+  batches: [],     // [{date, startIdx, endIdx, words:[...idx]}]
+  streak: 0,
+  lastDate: null,
+};
+
+function saveState() {
+  const s = {
+    goal: state.goal,
+    learnedIndices: [...state.learnedIndices],
+    batches: state.batches,
+    streak: state.streak,
+    lastDate: state.lastDate,
+  };
+  try { localStorage.setItem('vocab1200_state', JSON.stringify(s)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem('vocab1200_state');
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    state.goal = s.goal || 20;
+    state.learnedIndices = new Set(s.learnedIndices || []);
+    state.batches = s.batches || [];
+    state.streak = s.streak || 0;
+    state.lastDate = s.lastDate || null;
+  } catch(e) {}
+}
+
+loadState();
+
+// ─── SESSION ───────────────────────────────────────────────────────
+let session = {
+  mode: 'word2meaning',
+  words: [],
+  idx: 0,
+  score: 0,
+  answered: false,
+  currentWord: null,
+};
+
+function getNextWords(count) {
+  const learnedSet = state.learnedIndices;
+  let pool = [];
+  for (let i = 0; i < VOCAB.length; i++) {
+    if (!learnedSet.has(i)) pool.push(i);
+  }
+  if (pool.length === 0) pool = Array.from({length: VOCAB.length}, (_, i) => i);
+  const result = [];
+  const shuffled = [...pool].sort(() => Math.random() - .5);
+  for (let i = 0; i < Math.min(count, shuffled.length); i++) {
+    result.push(shuffled[i]);
+  }
+  return result;
+}
+
+function startSession(mode) {
+  const count = state.goal;
+  const wordIndices = getNextWords(count);
+  session.mode = mode === 'both' ? (Math.random() > .5 ? 'word2meaning' : 'meaning2word') : mode;
+  session.words = wordIndices;
+  session.idx = 0;
+  session.score = 0;
+  session.answered = false;
+
+  document.getElementById('session-end').style.display = 'none';
+  document.getElementById('quiz-active').style.display = 'block';
+  document.getElementById('qtotal').textContent = wordIndices.length;
+
+  // set mode buttons
+  document.getElementById('qmode-w2m').classList.toggle('active', session.mode !== 'meaning2word');
+  document.getElementById('qmode-m2w').classList.toggle('active', session.mode === 'meaning2word');
+
+  showPage('quiz');
+  renderQuestion();
+}
+
+function switchMode(mode) {
+  session.mode = mode;
+  document.getElementById('qmode-w2m').classList.toggle('active', mode === 'word2meaning');
+  document.getElementById('qmode-m2w').classList.toggle('active', mode === 'meaning2word');
+  if (!session.answered) renderQuestion();
+}
+
+function renderQuestion() {
+  if (session.idx >= session.words.length) { endSession(); return; }
+  session.answered = false;
+  document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'none';
+
+  const widx = session.words[session.idx];
+  const word = VOCAB[widx];
+  session.currentWord = word;
+
+  document.getElementById('qcur').textContent = session.idx + 1;
+
+  const isW2M = session.mode === 'word2meaning';
+  const promptEl = document.getElementById('qprompt');
+  const labelEl = document.getElementById('qprompt-label');
+  const meaningsEl = document.getElementById('qmeanings-display');
+
+  if (isW2M) {
+    promptEl.textContent = word.word;
+    promptEl.className = 'quiz-prompt';
+    labelEl.textContent = '英文單字';
+    meaningsEl.textContent = '';
+    document.getElementById('speak-btn').style.display = 'inline-flex';
+  } else {
+    promptEl.textContent = word.meaning;
+    promptEl.className = 'quiz-prompt chinese';
+    labelEl.textContent = '中文意思';
+    meaningsEl.textContent = '';
+    document.getElementById('speak-btn').style.display = 'none';
+  }
+
+  // build choices: 1 correct + 3 random wrong
+  const choices = buildChoices(widx, isW2M);
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c.text;
+    btn.onclick = () => handleAnswer(btn, c.correct, word, isW2M);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function buildChoices(correctIdx, isW2M) {
+  const correct = VOCAB[correctIdx];
+  let wrong = [];
+  while (wrong.length < 3) {
+    const r = Math.floor(Math.random() * VOCAB.length);
+    if (r !== correctIdx && !wrong.includes(r)) wrong.push(r);
+  }
+  const all = [
+    { text: isW2M ? correct.meaning : correct.word, correct: true },
+    ...wrong.map(i => ({ text: isW2M ? VOCAB[i].meaning : VOCAB[i].word, correct: false })),
+  ];
+  return all.sort(() => Math.random() - .5);
+}
+
+function handleAnswer(btn, isCorrect, word, isW2M) {
+  if (session.answered) return;
+  session.answered = true;
+
+  // mark all buttons
+  document.querySelectorAll('#choices .choice-btn').forEach(b => {
+    b.disabled = true;
+    const isThis = b === btn;
+    const isCorrectBtn = isW2M
+      ? b.textContent === word.meaning
+      : b.textContent === word.word;
+    if (isCorrectBtn) b.classList.add('correct');
+    else if (isThis && !isCorrect) b.classList.add('wrong');
+  });
+
+  const resEl = document.getElementById('quiz-result');
+  resEl.style.display = 'block';
+  if (isCorrect) {
+    session.score++;
+    document.getElementById('result-emoji').textContent = ['✅','🎉','⭐','🔥','💫'][Math.floor(Math.random()*5)];
+    document.getElementById('result-msg').textContent = ['答對了！','太棒了！','完全正確！','厲害！'][Math.floor(Math.random()*4)];
+    document.getElementById('result-sub').textContent = isW2M ? word.meaning : word.word;
+  } else {
+    document.getElementById('result-emoji').textContent = '❌';
+    document.getElementById('result-msg').textContent = '答錯了';
+    document.getElementById('result-sub').textContent = '正確答案：' + (isW2M ? word.meaning : word.word);
+  }
+
+  document.getElementById('next-btn').style.display = 'block';
+}
+
+function nextQuestion() {
+  session.idx++;
+  renderQuestion();
+}
+
+function endSession() {
+  document.getElementById('quiz-active').style.display = 'none';
+  const endEl = document.getElementById('session-end');
+  endEl.style.display = 'block';
+  document.getElementById('end-score').textContent = session.score + '/' + session.words.length;
+
+  // add to learned + batch
+  const today = new Date().toLocaleDateString('zh-TW');
+  session.words.forEach(i => state.learnedIndices.add(i));
+  state.batches.unshift({
+    date: today,
+    words: session.words,
+    label: `第 ${session.words[0]+1}–${session.words[session.words.length-1]+1} 個`,
+  });
+  if (state.batches.length > 50) state.batches.pop();
+
+  // streak
+  if (state.lastDate !== today) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yStr = yesterday.toLocaleDateString('zh-TW');
+    state.streak = (state.lastDate === yStr) ? state.streak + 1 : 1;
+    state.lastDate = today;
+  }
+
+  saveState();
+  updateHomeStats();
+}
+
+// ─── REVIEW ────────────────────────────────────────────────────────
+let reviewBatch = null;
+let reviewMode = 'flash';
+let fcIdx = 0;
+let fcShowing = false;
+let revSession = { words: [], idx: 0, score: 0, answered: false };
+
+function renderReviewList() {
+  const container = document.getElementById('review-batches');
+  const countLabel = document.getElementById('review-count-label');
+
+  if (state.batches.length === 0) {
+    container.innerHTML = `<div class="review-empty"><div class="icon">📚</div>還沒有學習記錄，先去學習頁背單字吧！</div>`;
+    countLabel.textContent = '0 批';
+    return;
+  }
+
+  countLabel.textContent = state.batches.length + ' 批';
+  container.innerHTML = '';
+  state.batches.forEach((b, bi) => {
+    const div = document.createElement('div');
+    div.className = 'review-batch';
+    div.innerHTML = `
+      <div class="rb-info">
+        <div class="rb-title">📖 ${b.date} · ${b.words.length} 個單字</div>
+        <div class="rb-sub">${b.words.slice(0,4).map(i=>VOCAB[i].word).join('、')}${b.words.length>4?'…':''}</div>
+      </div>
+      <div class="rb-arrow">›</div>`;
+    div.onclick = () => openReviewBatch(bi);
+    container.appendChild(div);
+  });
+}
+
+function openReviewBatch(bi) {
+  reviewBatch = state.batches[bi];
+  fcIdx = 0; fcShowing = false;
+  setReviewMode('flash');
+  document.getElementById('review-list-view').style.display = 'none';
+  document.getElementById('review-detail-view').style.display = 'block';
+  renderFlashcard();
+}
+
+function backToReviewList() {
+  document.getElementById('review-list-view').style.display = 'block';
+  document.getElementById('review-detail-view').style.display = 'none';
+  document.getElementById('rev-session-end').style.display = 'none';
+  renderReviewList();
+}
+
+function setReviewMode(mode) {
+  reviewMode = mode;
+  ['flash','word2meaning','meaning2word'].forEach(m => {
+    document.getElementById('rvm-' + (m==='word2meaning'?'w2m':m==='meaning2word'?'m2w':'flash')).classList.toggle('active', m===mode);
+  });
+  document.getElementById('flash-mode').style.display = mode === 'flash' ? 'block' : 'none';
+  document.getElementById('rev-quiz-mode').style.display = mode !== 'flash' ? 'block' : 'none';
+  document.getElementById('rev-session-end').style.display = 'none';
+  document.getElementById('rev-next-btn').style.display = 'none';
+  document.getElementById('rev-quiz-result').style.display = 'none';
+
+  if (mode !== 'flash') {
+    revSession = { words: [...reviewBatch.words], idx: 0, score: 0, answered: false };
+    renderRevQuestion();
+  } else {
+    fcIdx = 0; fcShowing = false;
+    renderFlashcard();
+  }
+}
+
+function renderFlashcard() {
+  if (!reviewBatch) return;
+  const widx = reviewBatch.words[fcIdx];
+  const word = VOCAB[widx];
+  fcShowing = false;
+  document.getElementById('fc-word').textContent = word.word;
+  document.getElementById('fc-meanings').textContent = word.meaning;
+  document.getElementById('fc-meanings').style.display = 'none';
+  document.getElementById('fc-hint').textContent = '點擊顯示意思';
+  document.getElementById('fc-count').textContent = (fcIdx+1) + ' / ' + reviewBatch.words.length;
+}
+
+function toggleFlashcard() {
+  fcShowing = !fcShowing;
+  document.getElementById('fc-meanings').style.display = fcShowing ? 'block' : 'none';
+  document.getElementById('fc-hint').textContent = fcShowing ? '再次點擊隱藏' : '點擊顯示意思';
+}
+
+function fcPrev() {
+  if (fcIdx > 0) { fcIdx--; renderFlashcard(); }
+  else showToast('已是第一個！');
+}
+
+function fcNext() {
+  if (fcIdx < reviewBatch.words.length - 1) { fcIdx++; renderFlashcard(); }
+  else showToast('已是最後一個！');
+}
+
+function speakFlashcard() {
+  if (!reviewBatch) return;
+  const word = VOCAB[reviewBatch.words[fcIdx]];
+  speak(word.word);
+}
+
+function renderRevQuestion() {
+  if (revSession.idx >= revSession.words.length) {
+    document.getElementById('rev-quiz-result').style.display = 'none';
+    document.getElementById('rev-next-btn').style.display = 'none';
+    document.getElementById('rev-session-end').style.display = 'block';
+    document.getElementById('rev-end-score').textContent = revSession.score + '/' + revSession.words.length;
+    return;
+  }
+  revSession.answered = false;
+  document.getElementById('rev-next-btn').style.display = 'none';
+  document.getElementById('rev-quiz-result').style.display = 'none';
+  document.getElementById('rev-session-end').style.display = 'none';
+
+  const widx = revSession.words[revSession.idx];
+  const word = VOCAB[widx];
+  const isW2M = reviewMode === 'word2meaning';
+
+  const promptEl = document.getElementById('rqprompt');
+  const labelEl = document.getElementById('rqprompt-label');
+  if (isW2M) {
+    promptEl.textContent = word.word;
+    promptEl.className = 'quiz-prompt';
+    labelEl.textContent = '英文單字';
+    document.getElementById('rspeak-btn').style.display = 'inline-flex';
+  } else {
+    promptEl.textContent = word.meaning;
+    promptEl.className = 'quiz-prompt chinese';
+    labelEl.textContent = '中文意思';
+    document.getElementById('rspeak-btn').style.display = 'none';
+  }
+  document.getElementById('rqmeanings-display').textContent = '';
+
+  const choices = buildChoices(widx, isW2M);
+  const el = document.getElementById('rev-choices');
+  el.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c.text;
+    btn.onclick = () => handleRevAnswer(btn, c.correct, word, isW2M);
+    el.appendChild(btn);
+  });
+}
+
+function handleRevAnswer(btn, isCorrect, word, isW2M) {
+  if (revSession.answered) return;
+  revSession.answered = true;
+
+  document.querySelectorAll('#rev-choices .choice-btn').forEach(b => {
+    b.disabled = true;
+    const isCorrectBtn = isW2M ? b.textContent === word.meaning : b.textContent === word.word;
+    if (isCorrectBtn) b.classList.add('correct');
+    else if (b === btn && !isCorrect) b.classList.add('wrong');
+  });
+
+  const resEl = document.getElementById('rev-quiz-result');
+  resEl.style.display = 'block';
+  if (isCorrect) {
+    revSession.score++;
+    document.getElementById('rev-result-emoji').textContent = '✅';
+    document.getElementById('rev-result-msg').textContent = '答對了！';
+  } else {
+    document.getElementById('rev-result-emoji').textContent = '❌';
+    document.getElementById('rev-result-msg').textContent = '正確：' + (isW2M ? word.meaning : word.word);
+  }
+  document.getElementById('rev-next-btn').style.display = 'block';
+}
+
+function revNextQuestion() {
+  revSession.idx++;
+  renderRevQuestion();
+}
+
+function speakReviewWord() {
+  const widx = revSession.words[revSession.idx];
+  speak(VOCAB[widx].word);
+}
+
+// ─── SPEECH ────────────────────────────────────────────────────────
+function speak(text) {
+  if (!window.speechSynthesis) { showToast('瀏覽器不支援語音'); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.85;
+  window.speechSynthesis.speak(u);
+}
+
+function speakWord() {
+  if (session.currentWord) speak(session.currentWord.word);
+}
+
+// ─── UI HELPERS ────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.textContent.includes(name === 'home' ? '首頁' : name === 'quiz' ? '學習' : '複習'))
+      b.classList.add('active');
+  });
+  if (name === 'review') renderReviewList();
+  if (name === 'home') updateHomeStats();
+}
+
+function updateHomeStats() {
+  const learned = state.learnedIndices.size;
+  document.getElementById('stat-learned').textContent = learned;
+  document.getElementById('stat-streak').textContent = state.streak;
+  const pct = Math.round(learned / 1200 * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = learned + ' / 1200';
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-remain').textContent = '剩餘 ' + (1200 - learned) + ' 字';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ─── GOAL CONTROL ──────────────────────────────────────────────────
+const goalInput = document.getElementById('goal-input');
+const goalSlider = document.getElementById('goal-slider');
+
+function syncGoal(val) {
+  val = Math.max(1, Math.min(1000, parseInt(val) || 1));
+  state.goal = val;
+  goalInput.value = val;
+  goalSlider.value = val;
+  goalSlider.style.setProperty('--pct', (val / 10) + '%');
+  saveState();
+}
+
+goalInput.addEventListener('input', () => syncGoal(goalInput.value));
+goalSlider.addEventListener('input', () => syncGoal(goalSlider.value));
+syncGoal(state.goal);
+updateHomeStats();
+</script>
+</body>
+</html>
